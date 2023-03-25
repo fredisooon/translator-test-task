@@ -7,9 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.http.HttpResponse;
 import java.util.List;
 
 @Slf4j
@@ -26,7 +24,7 @@ public class TranslateController {
 
     @PostMapping()
     public String translate(@RequestBody RequestTranslate body,
-                                          HttpServletRequest request) throws URISyntaxException, IOException, InterruptedException {
+                                          HttpServletRequest request) throws URISyntaxException {
         return translateService.getTranslate(body, request);
     }
 
