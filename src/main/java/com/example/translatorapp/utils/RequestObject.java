@@ -4,13 +4,15 @@ package com.example.translatorapp.utils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResponseTranslate {
+public class RequestObject {
 
-    private String translated_text;
-    private String source_language;
-    private String target_language;
+    private String text;
+    @Nullable
+    private String source_code;
+    private String target_code;
 }

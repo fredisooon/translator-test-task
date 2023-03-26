@@ -2,6 +2,7 @@ package com.example.translatorapp.service;
 
 import com.example.translatorapp.model.Request;
 import com.example.translatorapp.repository.RequestRepository;
+import com.example.translatorapp.utils.ResponseObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,8 +28,9 @@ public class RequestService implements RequestRepository {
 
     @Override
     @Transactional
-    public void save(Request request) {
-        String insertRequestQuery = "INSERT INTO REQUEST (REQUESTIP, EXECUTETIME, TRANSLATEPARAM) VALUES (?, ?, ?);";
+    public ResponseObject save(Request request) {
+        String insertRequestQuery =
+                "INSERT INTO REQUEST (REQUESTIP, EXECUTETIME, SOURCECODE, TARGETCODE) VALUES (?, ?, ?, ?);";
 
         try {
             connection = dataSource.getConnection();
@@ -37,7 +39,8 @@ public class RequestService implements RequestRepository {
 
             preparedStatement.setString(1, request.getREQUESTIP());
             preparedStatement.setTime(2, Time.valueOf(request.getEXECUTETIME()));
-            preparedStatement.setString(3, request.getTRANSLATEPARAM());
+            preparedStatement.setString(3, request.getSOURCECODE());
+            preparedStatement.setString(4, request.getTARGETCODE());
 
             preparedStatement.executeUpdate();
         }
@@ -89,6 +92,9 @@ public class RequestService implements RequestRepository {
             }
         }
 
+        return new ResponseObject(String.join(" ", request.getOutputWords()),
+                                                            request.getSOURCECODE(),
+                                                            request.getTARGETCODE());
     }
 
     private void saveEachWord(String data, String query, Long id) {
@@ -135,7 +141,8 @@ public class RequestService implements RequestRepository {
                 request.setID(resultSet.getLong("ID"));
                 request.setREQUESTIP(resultSet.getString("REQUESTIP"));
                 request.setEXECUTETIME(resultSet.getTime("EXECUTETIME").toLocalTime());
-                request.setTRANSLATEPARAM(resultSet.getString("TRANSLATEPARAM"));
+                request.setSOURCECODE(resultSet.getString("SOURCECODE"));
+                request.setTARGETCODE(resultSet.getString("TARGETCODE"));
             }
         }
         catch (SQLException e) {
@@ -147,7 +154,11 @@ public class RequestService implements RequestRepository {
 
     @Override
     public void update(Long id, Request updatedRequest) {
-        String query = "UPDATE REQUEST SET REQUESTIP = ?, EXECUTETIME = ?, TRANSLATEPARAM = ? WHERE ID = ?;";
+        String query =
+                "UPDATE REQUEST SET REQUESTIP = ?," +
+                        "           EXECUTETIME = ?," +
+                        "           SOURCECODE = ?," +
+                        "           TARGETCODE = ? WHERE ID = ?;";
 
         try {
             connection = dataSource.getConnection();
@@ -156,8 +167,9 @@ public class RequestService implements RequestRepository {
 
             preparedStatement.setString(1, updatedRequest.getREQUESTIP());
             preparedStatement.setTime(2, Time.valueOf(updatedRequest.getEXECUTETIME()));
-            preparedStatement.setString(3, updatedRequest.getTRANSLATEPARAM());
-            preparedStatement.setLong(4, id);
+            preparedStatement.setString(3, updatedRequest.getSOURCECODE());
+            preparedStatement.setString(4, updatedRequest.getTARGETCODE());
+            preparedStatement.setLong(5, id);
 
             preparedStatement.executeUpdate();
         }
@@ -204,7 +216,8 @@ public class RequestService implements RequestRepository {
                 request.setID(resultSet.getLong("ID"));
                 request.setREQUESTIP(resultSet.getString("REQUESTIP"));
                 request.setEXECUTETIME(resultSet.getTime("EXECUTETIME").toLocalTime());
-                request.setTRANSLATEPARAM(resultSet.getString("TRANSLATEPARAM"));
+                request.setSOURCECODE(resultSet.getString("SOURCECODE"));
+                request.setTARGETCODE(resultSet.getString("TARGETCODE"));
 
                 requestList.add(request);
             }

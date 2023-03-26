@@ -1,12 +1,13 @@
 package com.example.translatorapp.repository;
 
 import com.example.translatorapp.model.Request;
+import com.example.translatorapp.utils.ResponseObject;
 
 import java.util.List;
 
 public interface RequestRepository {
 
-    void save(Request employee);
+    ResponseObject save(Request employee);
 
     Request getById(Long id);
 

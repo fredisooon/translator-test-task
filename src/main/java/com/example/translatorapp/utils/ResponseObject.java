@@ -8,8 +8,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RequestTranslate {
+public class ResponseObject {
 
-    private String text;
-    private String translate_code;
+    private String translated_text;
+    private String source_language;
+    private String target_language;
 }

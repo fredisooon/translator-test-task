@@ -17,7 +17,8 @@ public class Request {
     private Long ID;
     private String REQUESTIP;
     private LocalTime EXECUTETIME;
-    private String TRANSLATEPARAM;
+    private String SOURCECODE;
+    private String TARGETCODE;
 
     @Nullable
     private List<String> inputWords;
