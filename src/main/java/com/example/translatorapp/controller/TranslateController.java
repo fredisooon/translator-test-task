@@ -8,12 +8,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URISyntaxException;
-import java.util.List;
-
 @Slf4j
 @RestController
-@RequestMapping(path = "/api/v1/translate")
+@RequestMapping(path = "${api_version}/translate")
 public class TranslateController {
 
     private final TranslateService translateService;

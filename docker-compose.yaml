@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+
+  backend:
+    build: .
+    container_name: translator-backend
+    ports:
+      - "${APP_PORT}:8080"
+    environment:
+      SPRING_DATASOURCE_USERNAME: sa
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.h2.Driver
+      SPRING_DATASOURCE_URL: jdbc:h2:file:./src/main/resources/data/database;AUTO_SERVER=true
+      SPRING_H2_CONSOLE_ENABLED: true
+      SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS: true
+      SPRING_SQL_INIT_MODE: always
+
+
+      YANDEX_URL_TRANSLATE: https://translate.api.cloud.yandex.net/translate/v2/translate
+      YANDEX_URL_DETECT_LANGUAGE: https://translate.api.cloud.yandex.net/translate/v2/detect
+      YANDEX_URL_LIST_LANGUAGES: https://translate.api.cloud.yandex.net/translate/v2/languages
+
+      API_VERSION: /api/v1
+
+      API_KEY: ${API_KEY}
